@@ -1,5 +1,6 @@
-from enum import Enum
+from dataclasses import dataclass
 
 
-class Currency(Enum):
-    USD = 'USD'
+@dataclass
+class Currency:
+    name: str

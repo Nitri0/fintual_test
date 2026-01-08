@@ -1,19 +1,24 @@
+from dataclasses import dataclass
 from enum import Enum
 
 from domain.price import Price
 
 
+@dataclass
 class StockType:
     name: str
-
-
-class Stock:
-    stock_type: StockType
+    symbol: str
     price: Price
+
+    def __hash__(self):
+        return hash(self.name)
+
+
+@dataclass
+class Stock:
+    id: str
+    type: StockType
     quantity: int
 
-    def __init__(self, price: Price):
-        self.price = price
-
     def current_price(self) -> float:
-        return self.price.get_value()
+        return self.type.price.get_value()
