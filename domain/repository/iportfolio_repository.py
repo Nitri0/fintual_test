@@ -5,7 +5,11 @@ from domain.portfolio import Portfolio
 
 class IPortfolioRepository:
     @abc.abstractmethod
-    def create(self, portfolio: Portfolio) -> int:
+    def create(self, portfolio: Portfolio) -> str:
+        ...
+
+    @abc.abstractmethod
+    def get_all(self) -> list[Portfolio]:
         ...
 
     @abc.abstractmethod

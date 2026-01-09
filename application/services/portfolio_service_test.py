@@ -7,14 +7,16 @@ from domain.currency import Currency
 from domain.operation_type import OperationType
 from domain.portfolio import Portfolio
 from domain.price import Price
+from domain.repository.iportfolio_repository import IPortfolioRepository
 from domain.stock import Stock, StockType
 
 
 class PortfolioServiceTest(unittest.TestCase):
     def setUp(self):
-        portfolio_mock_repo = Mock()
+        portfolio_mock_repo = Mock(spec=IPortfolioRepository)
         stock_dict = {
             "APPLE": StockType(
+                id="1",
                 name="APPLE",
                 symbol="APPLE",
                 price=Price(
@@ -23,6 +25,7 @@ class PortfolioServiceTest(unittest.TestCase):
                 ),
             ),
             "META": StockType(
+                id="2",
                 name="META",
                 symbol="META",
                 price=Price(
@@ -34,6 +37,7 @@ class PortfolioServiceTest(unittest.TestCase):
 
         portfolio_mock_repo.get_by_id.return_value = Portfolio(
             id="id",
+            name="default portfolio",
             stocks=[
                 Stock(
                     id="id",

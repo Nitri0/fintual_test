@@ -1,7 +1,5 @@
-import json
-
+from application.dto.portfolio.portfolio_dto import PortfolioDto
 from domain.operation import Operation
-from domain.portfolio import Portfolio
 from domain.repository.iportfolio_repository import IPortfolioRepository
 
 
@@ -16,3 +14,17 @@ class PortfolioService:
         operations = portfolio.rebalance()
 
         return operations
+
+    def get_all_portfolios(self) -> list[PortfolioDto]:
+        results_dto : list[PortfolioDto] = []
+        portfolios = self.portfolio_repository.get_all()
+
+        for portfolio in portfolios:
+            results_dto.append(
+                PortfolioDto(
+                    id=portfolio.id,
+                    name=portfolio.name,
+                )
+            )
+
+        return results_dto

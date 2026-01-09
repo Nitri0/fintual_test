@@ -6,6 +6,7 @@ from domain.price import Price
 
 @dataclass
 class StockType:
+    id: str
     name: str
     symbol: str
     price: Price
