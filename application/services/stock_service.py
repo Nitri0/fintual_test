@@ -1,4 +1,4 @@
-from application.dto.stock.stock_dto import StockDto
+from application.dto.stock_dto import StockDto
 from domain.repository.istock_repository import IStockTypeRepository
 
 

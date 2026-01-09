@@ -76,6 +76,3 @@ class PortfolioServiceTest(unittest.TestCase):
         assert operations[1].quantity == 14864  # -> Valor restando tolerancia/2
         assert operations[1].type == OperationType.COMPRA
 
-
-if __name__ == '__main__':
-    unittest.main()

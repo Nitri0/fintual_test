@@ -1,4 +1,4 @@
-from application.dto.portfolio.portfolio_dto import PortfolioDto
+from application.dto.portfolio_dto import PortfolioDto
 from domain.operation import Operation
 from domain.repository.iportfolio_repository import IPortfolioRepository
 
