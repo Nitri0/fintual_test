@@ -123,19 +123,46 @@ Los **servicios de aplicación** (`application/services/`) orquestran las operac
 Los **repositorios** abstraen la persistencia y obtención de datos:
 
 **Interface (Domain):**
+`domain/repository/iportfolio_repository.py`
 ```python
-class IStockRepository(ABC):
-    @abstractmethod
-    def get_current_price(self, symbol: str) -> float:
-        pass
+class IPortfolioRepository:
+    @abc.abstractmethod
+    def create(self, portfolio: Portfolio) -> str:
+        ...
+
+    @abc.abstractmethod
+    def get_all(self) -> list[Portfolio]:
+        ...
+
+    @abc.abstractmethod
+    def get_by_id(self, id: str) -> Portfolio:
+        ...
+
 ```
 
 **Implementación (Infrastructure):**
+`infrastructure/persistence/memory/memory_portfolio_repository.py`
 ```python
-class StockRepositoryImpl(IStockRepository):
-    def get_current_price(self, symbol: str) -> float:
-        # Puede conectarse a una API, DB, archivo, etc.
-        return self._fetch_from_api(symbol)
+class MemoryPortfolioRepository(IPortfolioRepository):
+    portfolios: dict[str, Portfolio]
+
+    def __init__(self, portfolios: list[Portfolio] = None):
+        self.portfolios = {}
+
+        if portfolios is not None:
+            for portfolio in portfolios:
+                self.portfolios.setdefault(portfolio.id, portfolio)
+
+    def create(self, portfolio: Portfolio) -> str:
+        self.portfolios.setdefault(portfolio.id, portfolio)
+        return portfolio.id
+
+    def get_by_id(self, id: str) -> Portfolio:
+        return self.portfolios.get(id)
+
+    def get_all(self) -> list[Portfolio]:
+        return list(self.portfolios.values())
+
 ```
 
 Esto permite cambiar la implementación sin modificar el dominio (Principio de Inversión de Dependencias).
@@ -158,11 +185,6 @@ cd fintual_test
 ```bash
 python -m venv venv
 source venv/bin/activate  # En Windows: venv\Scripts\activate
-```
-
-3. **Instalar dependencias:**
-```bash
-pip install -r requirements.txt
 ```
 
 ## 💻 Uso
@@ -304,4 +326,15 @@ python -m unittest application/services/portfolio_service_test.py
 6. **Dependency Inversion**: El dominio define interfaces, la infraestructura las implementa
 
 
+## Logs IA
 
+Siguiendo los requisitos adjunto [chat utilizado](https://claude.ai/share/a69b6d11-3262-4692-8f87-5c3ed00f2781) para llegar a la solución actual
+
+
+Cabe destacar que tanto la documentación generada como el código fueron evaluados y 
+reescritos directamente por mi persona 
+
+
+>**Muchas gracias** por tu tiempo si llegaste hasta aquí.
+
+ > Quedo abierto a cualquier feedback por correo **hsh283@gmail.com** ✅
